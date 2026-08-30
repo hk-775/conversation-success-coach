@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive architecture for Conversation Success Coach: validated local API, deterministic analysis, responsible-use gates, SQLite state, and human review.">
+    <meta name="theme-color" content="#f4f6f2">
+    <title>Architecture — Conversation Success Coach</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23176b5b'/%3E%3Cpath d='M8 9.5h16v9H14l-5 4v-4H8z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m12 14 2.3 2.2L20 11' fill='none' stroke='%2383dfc2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <div class="container site-nav-inner">
+            <a class="brand-lockup" href="index.html" aria-label="Conversation Success Coach home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5h16v10H10l-5 4v-4H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 10.5 2.1 2.1 4.8-4.8" stroke="#8be0c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="brand-name">Conversation Success Coach<small>Human-controlled guidance</small></span>
+            </a>
+            <button class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open navigation"><span></span></button>
+            <div class="site-links" id="site-links">
+                <a href="index.html#capabilities">Capabilities</a>
+                <a href="index.html#modes">Modes</a>
+                <a href="architecture.html" aria-current="page">Architecture</a>
+                <a class="button button-secondary" href="index.html">Product home</a>
+                <a class="button button-primary" href="dashboard.html">Open seeded demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main" class="architecture-page">
+        <section class="architecture-hero">
+            <div class="container architecture-hero-grid">
+                <div>
+                    <p class="eyebrow">Interactive architecture</p>
+                    <h1>Small enough to understand. Complete enough to demonstrate.</h1>
+                    <p class="architecture-hero-copy">
+                        A browser UI calls one validated FastAPI service. A deterministic engine analyzes observable conversation patterns, a responsible-use boundary redirects unsafe objectives, and SQLite stores only what the operator explicitly asks to retain.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#interactive-flow">Play the request flow</a>
+                        <a class="button button-secondary" href="docs">Open API docs</a>
+                    </div>
+                </div>
+                <aside class="architecture-facts" aria-label="Architecture facts">
+                    <div class="architecture-fact"><span>Runtime</span><strong>Python 3.11+ / FastAPI</strong></div>
+                    <div class="architecture-fact"><span>Analysis</span><strong>Local deterministic rules</strong></div>
+                    <div class="architecture-fact"><span>State</span><strong>SQLite with bounded retention</strong></div>
+                    <div class="architecture-fact"><span>Frontend</span><strong>Static HTML, CSS, JavaScript</strong></div>
+                    <div class="architecture-fact"><span>Outbound calls</span><strong>None</strong></div>
+                    <div class="architecture-fact"><span>Delivery</span><strong>Suggestions only</strong></div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="architecture-section" id="interactive-flow">
+            <div class="container-wide">
+                <div class="section-heading">
+                    <p class="eyebrow">Follow the evidence</p>
+                    <h2>Four journeys through the same product boundary.</h2>
+                    <p>Select a scenario, press play, or inspect any step. The diagram distinguishes client, service, coaching engine, and retained state.</p>
+                </div>
+                <div class="flow-explorer" data-flow-explorer>
+                    <div class="flow-explorer-head">
+                        <div class="scenario-tabs" role="tablist" aria-label="Architecture journeys">
+                            <button class="scenario-tab active" type="button" role="tab" aria-selected="true" data-flow-scenario="analysis">Analyze conversation</button>
+                            <button class="scenario-tab" type="button" role="tab" aria-selected="false" data-flow-scenario="feedback">Record feedback</button>
+                            <button class="scenario-tab" type="button" role="tab" aria-selected="false" data-flow-scenario="privacy">Privacy lifecycle</button>
+                            <button class="scenario-tab" type="button" role="tab" aria-selected="false" data-flow-scenario="reset">Reset the demo</button>
+                        </div>
+                        <div class="flow-controls">
+                            <button class="icon-control primary" type="button" data-flow-play aria-label="Play journey">
+                                <svg viewBox="0 0 20 20" fill="none"><path d="m7 5 7 5-7 5z" fill="currentColor"/></svg>
+                            </button>
+                            <button class="icon-control" type="button" data-flow-reset aria-label="Reset journey">
+                                <svg viewBox="0 0 20 20" fill="none"><path d="M5.4 6.2A6 6 0 1 1 4 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M2.8 5.7h3.3v3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                            <span class="flow-status" data-flow-status aria-live="polite">Step 1 / 6</span>
+                        </div>
+                    </div>
+                    <div class="flow-explorer-body">
+                        <div class="flow-title-row">
+                            <div><h2 data-flow-title>Analyze a conversation</h2><p data-flow-summary>Validated turns move through responsible-use checks, observable signal analysis, a mode adapter, and an explainable response.</p></div>
+                            <div class="flow-legend" aria-label="Lane legend">
+                                <span><i style="background:#2672a5"></i>Client</span>
+                                <span><i style="background:#176b5b"></i>API service</span>
+                                <span><i style="background:#5d5fce"></i>Coach engine</span>
+                                <span><i style="background:#b96912"></i>State</span>
+                            </div>
+                        </div>
+                        <div class="flow-canvas-scroll">
+                            <div class="flow-canvas" data-flow-canvas aria-label="Architecture journey"></div>
+                        </div>
+                        <div class="flow-detail">
+                            <div class="flow-detail-meta"><span data-flow-detail-step>Step 1</span><strong data-flow-detail-lane>Client</strong></div>
+                            <div class="flow-detail-copy"><h3 data-flow-detail-title>Operator requests analysis</h3><p data-flow-detail-copy>The dashboard sends explicit mode, ordered turns, context, and per-request data handling controls.</p></div>
+                            <div class="flow-detail-proof"><span>Inspectable contract</span><code data-flow-detail-proof>POST /api/v1/analyze</code></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture-section white">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Logical topology</p>
+                    <h2>Four compact layers with one clear owner each.</h2>
+                    <p>There is no hidden model provider, queue, browser extension, or message transport. Production additions can wrap this core without changing its human-control contract.</p>
+                </div>
+                <div class="topology-grid">
+                    <article class="topology-column">
+                        <div class="topology-head"><span>Layer 1</span><strong>Operator experience</strong></div>
+                        <div class="topology-body">
+                            <div class="topology-item"><strong>Landing + architecture</strong><span>Publishable static site and product explanation</span></div>
+                            <div class="topology-item"><strong>Coach dashboard</strong><span>Workspace, KPIs, suggestions, feedback, playbooks</span></div>
+                            <div class="topology-item"><strong>Guided demo</strong><span>Scripted tour of analysis, decisions, privacy, and reset</span></div>
+                            <div class="topology-item"><strong>No send control</strong><span>The UI can add local turns, but cannot deliver a message</span></div>
+                        </div>
+                    </article>
+                    <article class="topology-column">
+                        <div class="topology-head"><span>Layer 2</span><strong>Validated service</strong></div>
+                        <div class="topology-body">
+                            <div class="topology-item"><strong>Pydantic contracts</strong><span>Strict schemas, bounded lengths, explicit enums</span></div>
+                            <div class="topology-item"><strong>FastAPI routes</strong><span>Health, analysis, feedback, playbooks, privacy, audit</span></div>
+                            <div class="topology-item"><strong>Application service</strong><span>Coordinates settings, playbooks, state, and policy conflicts</span></div>
+                            <div class="topology-item"><strong>Security headers</strong><span>Same-origin CSP and no-store API responses</span></div>
+                        </div>
+                    </article>
+                    <article class="topology-column">
+                        <div class="topology-head"><span>Layer 3</span><strong>Coaching engine</strong></div>
+                        <div class="topology-body">
+                            <div class="topology-item"><strong>Signal analyzers</strong><span>Momentum, tone, clarity, empathy, questions, risk</span></div>
+                            <div class="topology-item"><strong>Mode adapters</strong><span>Sales, support, recruiting, community next steps</span></div>
+                            <div class="topology-item"><strong>Responsible-use policy</strong><span>Redirects prohibited objectives to safe alternatives</span></div>
+                            <div class="topology-item"><strong>Deterministic output</strong><span>Canonical SHA-256 input fingerprint and stable suggestions</span></div>
+                        </div>
+                    </article>
+                    <article class="topology-column">
+                        <div class="topology-head"><span>Layer 4</span><strong>Local evidence store</strong></div>
+                        <div class="topology-body">
+                            <div class="topology-item"><strong>SQLite repository</strong><span>Conversations, analyses, suggestions, feedback, playbooks</span></div>
+                            <div class="topology-item"><strong>Content-free audit</strong><span>Metadata and state changes without transcript text</span></div>
+                            <div class="topology-item"><strong>Retention worker</strong><span>Deletes expired non-demo content and old audit events</span></div>
+                            <div class="topology-item"><strong>Canonical seed</strong><span>Four fictional scenarios restored by one reset endpoint</span></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture-section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">API surface</p>
+                    <h2>Useful contracts, not a demo-only façade.</h2>
+                    <p>The dashboard uses the same endpoints available to any local client. OpenAPI documentation is served from <code>/docs</code>.</p>
+                </div>
+                <div class="contract-grid">
+                    <article class="contract-card"><span>GET</span><h3>Health & posture</h3><p>Runtime, engine, seed, external-call, and delivery-capability status.</p><code>/api/v1/health</code></article>
+                    <article class="contract-card"><span>POST</span><h3>Analyze conversation</h3><p>Signals, questions, risks, responsible-use decision, explanations, and suggestions.</p><code>/api/v1/analyze</code></article>
+                    <article class="contract-card"><span>POST</span><h3>Generate suggestions</h3><p>Mode-specific next actions with editable draft language and manual-only flags.</p><code>/api/v1/suggestions</code></article>
+                    <article class="contract-card"><span>POST / GET</span><h3>Feedback & outcomes</h3><p>Accepted, rejected, and outcome records feed directional metrics.</p><code>/api/v1/feedback</code></article>
+                    <article class="contract-card"><span>CRUD</span><h3>Playbooks</h3><p>Operator-managed, mode-scoped principles referenced by coaching responses.</p><code>/api/v1/playbooks</code></article>
+                    <article class="contract-card"><span>GET</span><h3>Metrics & audit</h3><p>Aggregate signals, adoption, outcomes, and content-minimized state history.</p><code>/api/v1/metrics · /audit</code></article>
+                    <article class="contract-card"><span>GET / PUT</span><h3>Privacy controls</h3><p>Raw-content switch and bounded analysis/audit retention settings.</p><code>/api/v1/privacy/settings</code></article>
+                    <article class="contract-card"><span>POST</span><h3>Purge & retention</h3><p>Conversation, expired, or all non-demo deletion with a content-free receipt.</p><code>/api/v1/privacy/purge</code></article>
+                    <article class="contract-card"><span>POST</span><h3>Demo reset</h3><p>Transactional clear and restore of the canonical fictional scenarios.</p><code>/api/v1/demo/reset</code></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture-section white">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Non-negotiable boundaries</p>
+                    <h2>Responsible use is a system property.</h2>
+                    <p>The implementation distinguishes analysis limits, blocked capabilities, mandatory human review, and content minimization.</p>
+                </div>
+                <div class="boundary-table">
+                    <div class="boundary-row"><strong>Automatic sending</strong><p>No endpoint, transport, or UI action can send a message to another person.</p><span class="boundary-status blocked">Not implemented</span></div>
+                    <div class="boundary-row"><strong>Impersonation</strong><p>Examples are labeled editable drafts; every suggestion requires operator review.</p><span class="boundary-status blocked">Blocked</span></div>
+                    <div class="boundary-row"><strong>Protected attributes</strong><p>Explicit inference or targeting requests are detected and redirected to relevant documented criteria.</p><span class="boundary-status blocked">Blocked</span></div>
+                    <div class="boundary-row"><strong>Mental-health diagnosis</strong><p>The engine only describes observable language and never assigns a diagnosis or personality label.</p><span class="boundary-status blocked">Blocked</span></div>
+                    <div class="boundary-row"><strong>Deceptive urgency</strong><p>Sales guidance permits only real deadlines, constraints, and uncertainty labels.</p><span class="boundary-status blocked">Blocked</span></div>
+                    <div class="boundary-row"><strong>Human judgment</strong><p>Suggestions expose rationale, evidence, confidence, and limitations before feedback can be recorded.</p><span class="boundary-status required">Required</span></div>
+                    <div class="boundary-row"><strong>Raw transcript retention</strong><p>Ad hoc requests default to no persistence; new retained conversations require a setting, consent, and expiry.</p><span class="boundary-status minimized">Minimized</span></div>
+                    <div class="boundary-row"><strong>Audit contents</strong><p>Audit records contain state metadata and counts, never transcript text or feedback-note contents.</p><span class="boundary-status minimized">Content-free</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-band" style="padding-top:72px">
+            <div class="container">
+                <div class="cta-card">
+                    <div><h2>See the architecture behave in the live workspace.</h2><p>Analyze, accept or reject, record an outcome, inspect audit history, purge content, and restore the demo.</p></div>
+                    <div class="cta-actions"><a class="button button-primary" href="dashboard.html">Open dashboard</a><a class="button button-secondary" href="index.html">Back to product</a></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:0;margin-top:0;padding-top:0"><span>Conversation Success Coach · MIT-0</span><span>Local deterministic demo · No external calls</span></div>
+        </div>
+    </footer>
+
+    <script src="assets/site.js"></script>
+    <script src="assets/architecture.js"></script>
+</body>
+</html>
+

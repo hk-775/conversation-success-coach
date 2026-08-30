@@ -1,0 +1,21 @@
+Conversation Success Coach
+Copyright 2026 Conversation Success Coach contributors
+
+This distribution is licensed under MIT-0. See LICENSE.
+
+The product contains original deterministic analysis, API, persistence,
+documentation, test, and static-interface code. It includes no customer data,
+provider credentials, model weights, binaries, node_modules, copied generated
+assets, or external service configuration.
+
+All people, organizations, conversations, identifiers, feedback, and outcomes
+in the demo are fictional.
+
+Runtime dependencies are declared in pyproject.toml:
+
+- FastAPI
+- Pydantic
+- Uvicorn
+
+Those projects retain their respective copyrights and licenses.
+

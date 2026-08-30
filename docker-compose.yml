@@ -1,0 +1,27 @@
+services:
+  coach:
+    build:
+      context: .
+    image: conversation-success-coach:local
+    ports:
+      - "${CSC_PORT:-8103}:8103"
+    environment:
+      CSC_HOST: "0.0.0.0"
+      CSC_PORT: "8103"
+      CSC_DATABASE_PATH: "/data/conversation_success_coach.db"
+      CSC_DEMO_SEED: "${CSC_DEMO_SEED:-true}"
+      CSC_DOCS_ENABLED: "${CSC_DOCS_ENABLED:-true}"
+    volumes:
+      - coach-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  coach-data:
+

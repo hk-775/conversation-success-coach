@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Explainable, human-controlled conversation coaching for sales, support, recruiting, and communities. Runs locally with no external credentials.">
+    <meta name="theme-color" content="#102a22">
+    <title>Conversation Success Coach — Better conversations, human controlled</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23176b5b'/%3E%3Cpath d='M8 9.5h16v9H14l-5 4v-4H8z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m12 14 2.3 2.2L20 11' fill='none' stroke='%2383dfc2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+        <div class="container site-nav-inner">
+            <a class="brand-lockup" href="index.html" aria-label="Conversation Success Coach home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 5.5h16v10H10l-5 4v-4H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                        <path d="m8.5 10.5 2.1 2.1 4.8-4.8" stroke="#8be0c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="brand-name">Conversation Success Coach<small>Human-controlled guidance</small></span>
+            </a>
+            <button class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open navigation">
+                <span></span>
+            </button>
+            <div class="site-links" id="site-links">
+                <a href="#capabilities">Capabilities</a>
+                <a href="#modes">Modes</a>
+                <a href="#principles">Principles</a>
+                <a href="architecture.html">Architecture</a>
+                <a class="button button-secondary" href="architecture.html">See how it works</a>
+                <a class="button button-primary" href="dashboard.html">
+                    Open seeded demo
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main" class="landing-main">
+        <section class="hero">
+            <div class="hero-orb" aria-hidden="true"></div>
+            <div class="container hero-grid">
+                <div class="hero-copy-column">
+                    <div class="hero-badge"><span class="hero-badge-dot"></span>Local-first · deterministic · open source</div>
+                    <h1>Better conversations, <span>without taking over</span> the conversation.</h1>
+                    <p class="hero-copy">
+                        Explainable coaching for sales, support, recruiting, and community teams.
+                        See momentum, tone, open questions, clarity, empathy, and escalation signals—then decide what to do next.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="dashboard.html">
+                            Explore the live workspace
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <a class="button button-secondary" href="#modes">View coaching modes</a>
+                    </div>
+                    <div class="hero-proof" aria-label="Product guarantees">
+                        <span>
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 3.2 3.2L16 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Never auto-sends
+                        </span>
+                        <span>
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 3.2 3.2L16 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            No hidden profiles
+                        </span>
+                        <span>
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 3.2 3.2L16 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            No cloud dependency
+                        </span>
+                    </div>
+                </div>
+
+                <div class="product-preview" aria-label="Dashboard preview">
+                    <div class="preview-window">
+                        <div class="preview-bar">
+                            <div class="preview-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                            <div class="preview-bar-label">Live coaching workspace</div>
+                            <div class="preview-pill">Support</div>
+                        </div>
+                        <div class="preview-body">
+                            <aside class="preview-sidebar" aria-hidden="true">
+                                <div class="preview-logo-line"></div>
+                                <div class="preview-nav-line active">Workspace</div>
+                                <div class="preview-nav-line">Suggestions</div>
+                                <div class="preview-nav-line">Feedback</div>
+                                <div class="preview-nav-line">Playbooks</div>
+                                <div class="preview-nav-line">Privacy</div>
+                            </aside>
+                            <div class="preview-conversation">
+                                <div class="preview-heading"><strong>Bluebird export incident</strong><span class="preview-pill">Live</span></div>
+                                <div class="preview-message participant">The export has failed three times. This is blocking our board deadline.</div>
+                                <div class="preview-message operator">Can you share the job ID and browser version?</div>
+                                <div class="preview-message participant highlight">I already sent this yesterday. When will someone own the fix?</div>
+                                <div class="preview-message operator">I can see the prior ticket. I am checking the worker retry now.</div>
+                            </div>
+                            <aside class="preview-insights">
+                                <div class="mini-score">
+                                    <div class="mini-ring"><strong>56</strong></div>
+                                    <div class="mini-score-copy"><strong>Needs attention</strong><span>2 open loops</span></div>
+                                </div>
+                                <div class="mini-signal"><div class="mini-signal-label"><span>Momentum</span><b>61</b></div><div class="mini-track"><span style="width:61%"></span></div></div>
+                                <div class="mini-signal"><div class="mini-signal-label"><span>Tone</span><b>48</b></div><div class="mini-track"><span style="width:48%"></span></div></div>
+                                <div class="mini-signal"><div class="mini-signal-label"><span>Clarity</span><b>72</b></div><div class="mini-track"><span style="width:72%"></span></div></div>
+                                <div class="mini-signal"><div class="mini-signal-label"><span>Empathy</span><b>34</b></div><div class="mini-track"><span style="width:34%"></span></div></div>
+                                <div class="mini-suggestion"><b>Next best action</b><p>Acknowledge the deadline impact, name the owner, and set a realistic checkpoint.</p></div>
+                            </aside>
+                        </div>
+                    </div>
+                    <div class="preview-float">
+                        <span class="preview-float-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M10 2.5 12 7l4.5 2-4.5 2-2 4.5L8 11 3.5 9 8 7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span><strong>Suggestion, not automation</strong><span>Operator review is always required</span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-strip" aria-label="Responsible product defaults">
+            <div class="container trust-grid">
+                <div class="trust-item">
+                    <span class="trust-icon" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" fill="none"><path d="M10 2.5 16 5v4.6c0 3.6-2.5 6.3-6 7.9-3.5-1.6-6-4.3-6-7.9V5z" stroke="currentColor" stroke-width="1.5"/><path d="m7 10 2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span><strong>Human agency preserved</strong><span>Editable guidance, never impersonation</span></span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" fill="none"><path d="M6 8V6a4 4 0 1 1 8 0v2M4.5 8h11v9h-11z" stroke="currentColor" stroke-width="1.5"/><path d="M10 11v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </span>
+                    <span><strong>Data minimized by default</strong><span>Ad hoc analysis is not persisted</span></span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" fill="none"><path d="M3 10h14M10 3v14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/></svg>
+                    </span>
+                    <span><strong>Works across contexts</strong><span>Four explicit, inspectable modes</span></span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5h14v11H3z" stroke="currentColor" stroke-width="1.5"/><path d="M6 8h8M6 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </span>
+                    <span><strong>Explainable by construction</strong><span>Evidence, confidence, and limits included</span></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-section" id="capabilities">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Signal, not surveillance</p>
+                    <h2>See what the conversation is doing—not who someone secretly is.</h2>
+                    <p>The coach evaluates observable language and interaction structure. It does not infer protected traits, diagnose mental health, or build dependency profiles.</p>
+                </div>
+                <div class="signal-grid">
+                    <article class="signal-card reveal">
+                        <span class="signal-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M3 14.5 7 10l3 2 6-7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 5h3v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                        </span>
+                        <h3>Momentum</h3>
+                        <p>Turn balance, forward-motion cues, stalling language, and open loops combine into a transparent health signal.</p>
+                        <span class="signal-tag">Building · steady · fragile</span>
+                    </article>
+                    <article class="signal-card violet reveal">
+                        <span class="signal-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M3 10h2l1.2-4 2.2 8 2.2-9 2.1 7 1.4-2H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <h3>Tone & escalation</h3>
+                        <p>Visible courtesy, frustration, emphasis, threats, harassment, and formal escalation cues—without claiming hidden emotion.</p>
+                        <span class="signal-tag">Observable language only</span>
+                    </article>
+                    <article class="signal-card amber reveal">
+                        <span class="signal-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h6M7 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </span>
+                        <h3>Clarity & empathy</h3>
+                        <p>Concrete commitments, vague qualifiers, and explicit acknowledgment of stated impact are scored with evidence and caveats.</p>
+                        <span class="signal-tag">No emotion diagnosis</span>
+                    </article>
+                    <article class="signal-card reveal">
+                        <span class="signal-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M4 4.5h12v8H9l-4 3v-3H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </span>
+                        <h3>Unanswered questions</h3>
+                        <p>Topic-aware detection highlights participant questions that were skipped, partially answered, or left without a checkpoint.</p>
+                        <span class="signal-tag">Pricing · timing · policy</span>
+                    </article>
+                    <article class="signal-card violet reveal">
+                        <span class="signal-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M10 2.5 12 7l4.5 2-4.5 2-2 4.5L8 11 3.5 9 8 7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                        </span>
+                        <h3>Next-best actions</h3>
+                        <p>Mode-aware recommendations include rationale, evidence, confidence, limitations, and editable example language.</p>
+                        <span class="signal-tag">Manual delivery only</span>
+                    </article>
+                    <article class="signal-card amber reveal">
+                        <span class="signal-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none"><path d="M10 3v9M10 16v.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 2.5 18 17H2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                        </span>
+                        <h3>Responsible-use boundaries</h3>
+                        <p>Manipulation, discriminatory inference, diagnosis, fabricated urgency, dependency, and impersonation requests are redirected.</p>
+                        <span class="signal-tag">Boundaries in code + tests</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-section white" id="modes">
+            <div class="container mode-layout">
+                <div class="mode-sticky reveal">
+                    <div class="section-heading">
+                        <p class="eyebrow">Adaptable by design</p>
+                        <h2>One coaching core. Four explicit modes.</h2>
+                        <p>The same neutral signals drive different next-step patterns. Switch modes to see the language and safeguards change.</p>
+                    </div>
+                    <div class="mode-tabs" role="tablist" aria-label="Coaching modes">
+                        <button class="mode-tab active" type="button" role="tab" aria-selected="true" aria-controls="mode-sales" data-mode-tab="sales">
+                            <span class="mode-tab-icon">↗</span><span><strong>Sales</strong><span>Discovery and transparent progress</span></span><span class="mode-tab-arrow">›</span>
+                        </button>
+                        <button class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="mode-support" data-mode-tab="support">
+                            <span class="mode-tab-icon">◎</span><span><strong>Support</strong><span>Impact, ownership, resolution</span></span><span class="mode-tab-arrow">›</span>
+                        </button>
+                        <button class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="mode-recruiting" data-mode-tab="recruiting">
+                            <span class="mode-tab-icon">◇</span><span><strong>Recruiting</strong><span>Fair, legible candidate process</span></span><span class="mode-tab-arrow">›</span>
+                        </button>
+                        <button class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="mode-community" data-mode-tab="community">
+                            <span class="mode-tab-icon">◌</span><span><strong>Community</strong><span>Consistent de-escalation</span></span><span class="mode-tab-arrow">›</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mode-stage reveal">
+                    <article class="mode-panel active" id="mode-sales" role="tabpanel" data-mode-panel="sales">
+                        <div class="mode-panel-head"><div><h3>Close the discovery loop</h3><p>Answer buying questions, reflect stated needs, and ask permission for a real next step—without fabricated scarcity or covert pressure.</p></div><span class="mode-badge">Sales mode</span></div>
+                        <div class="mode-example">
+                            <div class="mode-chat">
+                                <div class="mode-message">How would migration work, and what does pricing look like for 40 analysts?</div>
+                                <div class="mode-message operator">Migration starts with a read-only review and staged parallel run.</div>
+                                <div class="mode-message">The pricing question is still open.</div>
+                            </div>
+                            <div class="mode-scores">
+                                <div class="mode-score-row"><div><span>Momentum</span><span>63</span></div><div class="bar"><i style="width:63%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Clarity</span><span>74</span></div><div class="bar"><i style="width:74%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Open loops</span><span>1</span></div><div class="bar"><i style="width:38%"></i></div></div>
+                            </div>
+                        </div>
+                        <div class="mode-actions-list">
+                            <div class="mode-action"><span>Now</span><strong>Answer pricing before another ask</strong></div>
+                            <div class="mode-action"><span>Next</span><strong>Summarize the stated operational need</strong></div>
+                            <div class="mode-action"><span>Boundary</span><strong>Use only real deadlines and constraints</strong></div>
+                        </div>
+                    </article>
+                    <article class="mode-panel" id="mode-support" role="tabpanel" data-mode-panel="support" hidden>
+                        <div class="mode-panel-head"><div><h3>Stabilize and set a checkpoint</h3><p>Acknowledge the stated impact, name the next diagnostic or remedy, assign ownership, and commit only to a realistic update time.</p></div><span class="mode-badge">Support mode</span></div>
+                        <div class="mode-example">
+                            <div class="mode-chat">
+                                <div class="mode-message">This is blocking our board deadline. When will someone own the fix?</div>
+                                <div class="mode-message operator">I can see the prior ticket. I am checking the worker retry now.</div>
+                                <div class="mode-message">Impact is visible; update timing is still open.</div>
+                            </div>
+                            <div class="mode-scores">
+                                <div class="mode-score-row"><div><span>Empathy</span><span>46</span></div><div class="bar"><i style="width:46%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Escalation</span><span>62</span></div><div class="bar"><i style="width:62%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Clarity</span><span>68</span></div><div class="bar"><i style="width:68%"></i></div></div>
+                            </div>
+                        </div>
+                        <div class="mode-actions-list">
+                            <div class="mode-action"><span>Now</span><strong>Acknowledge the deadline impact</strong></div>
+                            <div class="mode-action"><span>Next</span><strong>Name owner and next update checkpoint</strong></div>
+                            <div class="mode-action"><span>Boundary</span><strong>Do not promise an unverified resolution</strong></div>
+                        </div>
+                    </article>
+                    <article class="mode-panel" id="mode-recruiting" role="tabpanel" data-mode-panel="recruiting" hidden>
+                        <div class="mode-panel-head"><div><h3>Make the process legible</h3><p>Give consistent, job-relevant information, distinguish facts from estimates, and leave room for candidate questions and accommodations.</p></div><span class="mode-badge">Recruiting mode</span></div>
+                        <div class="mode-example">
+                            <div class="mode-chat">
+                                <div class="mode-message">Is the role fully remote, and what is the interview timeline?</div>
+                                <div class="mode-message operator">The panel reviews Tuesday; I expect an update within two business days.</div>
+                                <div class="mode-message">Remote policy remains unanswered.</div>
+                            </div>
+                            <div class="mode-scores">
+                                <div class="mode-score-row"><div><span>Clarity</span><span>81</span></div><div class="bar"><i style="width:81%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Momentum</span><span>58</span></div><div class="bar"><i style="width:58%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Open loops</span><span>1</span></div><div class="bar"><i style="width:38%"></i></div></div>
+                            </div>
+                        </div>
+                        <div class="mode-actions-list">
+                            <div class="mode-action"><span>Now</span><strong>Answer the remote-policy question</strong></div>
+                            <div class="mode-action"><span>Next</span><strong>Label confirmed dates versus estimates</strong></div>
+                            <div class="mode-action"><span>Boundary</span><strong>Never infer protected attributes</strong></div>
+                        </div>
+                    </article>
+                    <article class="mode-panel" id="mode-community" role="tabpanel" data-mode-panel="community" hidden>
+                        <div class="mode-panel-head"><div><h3>Moderate behavior, not identity</h3><p>Name the observable conduct, cite the same published norm for everyone, request a concrete change, and preserve a pause or appeal path.</p></div><span class="mode-badge">Community mode</span></div>
+                        <div class="mode-example">
+                            <div class="mode-chat">
+                                <div class="mode-message">Your idea is clueless. I will keep tagging you until you answer.</div>
+                                <div class="mode-message operator">Please keep the discussion productive.</div>
+                                <div class="mode-message">The rule and required behavior are still unclear.</div>
+                            </div>
+                            <div class="mode-scores">
+                                <div class="mode-score-row"><div><span>Escalation</span><span>78</span></div><div class="bar"><i style="width:78%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Clarity</span><span>42</span></div><div class="bar"><i style="width:42%"></i></div></div>
+                                <div class="mode-score-row"><div><span>Safety</span><span>High</span></div><div class="bar"><i style="width:82%"></i></div></div>
+                            </div>
+                        </div>
+                        <div class="mode-actions-list">
+                            <div class="mode-action"><span>Now</span><strong>Name personal labels and repeated tagging</strong></div>
+                            <div class="mode-action"><span>Next</span><strong>Request a pause under the published norm</strong></div>
+                            <div class="mode-action"><span>Boundary</span><strong>Do not speculate about motives or diagnosis</strong></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-section workflow-band">
+            <div class="container">
+                <div class="section-heading center reveal">
+                    <p class="eyebrow">A simple local loop</p>
+                    <h2>Useful in a meeting. Inspectable after it.</h2>
+                    <p>The seeded demo is a real API-backed workflow, not a slide or external model call.</p>
+                </div>
+                <div class="workflow reveal">
+                    <article class="workflow-step"><span class="workflow-number">01</span><h3>Bring the turns</h3><p>Use a seeded scenario or add local transcript turns.</p></article>
+                    <article class="workflow-step"><span class="workflow-number">02</span><h3>Analyze signals</h3><p>Deterministic rules score visible language and structure.</p></article>
+                    <article class="workflow-step"><span class="workflow-number">03</span><h3>Review actions</h3><p>Every suggestion includes evidence, confidence, and limits.</p></article>
+                    <article class="workflow-step"><span class="workflow-number">04</span><h3>Choose deliberately</h3><p>Accept, reject, edit, or ignore. Nothing is sent.</p></article>
+                    <article class="workflow-step"><span class="workflow-number">05</span><h3>Learn from outcomes</h3><p>Record directional feedback without claiming causality.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-section" id="principles">
+            <div class="container">
+                <div class="principles-layout">
+                    <article class="principles-card reveal">
+                        <p class="eyebrow">Built for agency</p>
+                        <h3>Coaching that leaves the operator in charge.</h3>
+                        <p>The product boundary is part of the implementation, API, interface copy, and test suite.</p>
+                        <div class="principle-list">
+                            <div class="principle-item"><span class="principle-check">✓</span><span><strong>Suggestions only</strong><span>Every action is editable and marked manual-delivery-only.</span></span></div>
+                            <div class="principle-item"><span class="principle-check">✓</span><span><strong>Evidence before confidence</strong><span>Scores show the visible cues that produced them and where they can be wrong.</span></span></div>
+                            <div class="principle-item"><span class="principle-check">✓</span><span><strong>Voluntary, transparent progress</strong><span>No deceptive urgency, fake scarcity, hidden persuasion, or dependency optimization.</span></span></div>
+                            <div class="principle-item"><span class="principle-check">✓</span><span><strong>Bounded data lifecycle</strong><span>Analysis defaults to stateless; retained content requires an explicit control and expiry.</span></span></div>
+                        </div>
+                    </article>
+                    <article class="principles-card dark reveal">
+                        <p class="eyebrow">Hard boundaries</p>
+                        <h3>What the coach will not help optimize.</h3>
+                        <p>Unsafe objectives are redirected to a transparent, relevant alternative rather than quietly fulfilled.</p>
+                        <div class="boundary-grid">
+                            <div class="boundary-item"><b>No</b>Covert manipulation or pressure loops</div>
+                            <div class="boundary-item"><b>No</b>Protected-attribute inference or targeting</div>
+                            <div class="boundary-item"><b>No</b>Mental-health or personality diagnosis</div>
+                            <div class="boundary-item"><b>No</b>Fabricated urgency or scarcity</div>
+                            <div class="boundary-item"><b>No</b>Optimization for dependency</div>
+                            <div class="boundary-item"><b>No</b>Impersonation or automatic sending</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-section white">
+            <div class="container">
+                <div class="architecture-teaser reveal">
+                    <div>
+                        <p class="eyebrow">Architecture you can explain</p>
+                        <h3>One request path. No hidden providers.</h3>
+                        <p>Browser, validated FastAPI contract, deterministic coaching engine, explicit policy boundary, and a local SQLite record when persistence is requested.</p>
+                        <a class="button button-dark" href="architecture.html">Explore the animated architecture</a>
+                    </div>
+                    <div class="teaser-flow" aria-label="Product architecture">
+                        <div class="teaser-node"><i>◫</i>Operator UI</div><span class="teaser-arrow">→</span>
+                        <div class="teaser-node"><i>{ }</i>Validated API</div><span class="teaser-arrow">→</span>
+                        <div class="teaser-node"><i>◇</i>Coach engine</div><span class="teaser-arrow">→</span>
+                        <div class="teaser-node"><i>✓</i>Human review</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-band">
+            <div class="container">
+                <div class="cta-card reveal">
+                    <div><h2>Open the seeded demo and coach a real scenario.</h2><p>Four fictional conversations, complete metrics, playbooks, privacy controls, audit history, and one-click reset.</p></div>
+                    <div class="cta-actions"><a class="button button-primary" href="dashboard.html">Launch dashboard</a><a class="button button-secondary" href="architecture.html">View architecture</a></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a class="brand-lockup" href="index.html">
+                        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5h16v10H10l-5 4v-4H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 10.5 2.1 2.1 4.8-4.8" stroke="#8be0c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        <span class="brand-name">Conversation Success Coach<small>Open source · MIT-0</small></span>
+                    </a>
+                    <p class="footer-note">A neutral, local-first coaching system for teams that want better conversational outcomes without automating away human judgment.</p>
+                </div>
+                <div class="footer-column"><strong>Product</strong><a href="dashboard.html">Dashboard</a><a href="architecture.html">Architecture</a><a href="docs">API docs</a></div>
+                <div class="footer-column"><strong>Principles</strong><a href="#principles">Human agency</a><a href="#principles">Responsible use</a><a href="#principles">Data minimization</a></div>
+                <div class="footer-column"><strong>Modes</strong><a href="#modes">Sales</a><a href="#modes">Support</a><a href="#modes">Recruiting</a><a href="#modes">Community</a></div>
+            </div>
+            <div class="footer-bottom"><span>Fictional demo data only.</span><span>No external credentials or network calls required.</span></div>
+        </div>
+    </footer>
+
+    <script src="assets/site.js"></script>
+</body>
+</html>
+
