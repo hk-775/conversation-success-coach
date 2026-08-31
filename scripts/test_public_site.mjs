@@ -134,16 +134,32 @@ function requestJson(url, method = "GET") {
   });
 }
 
-async function waitForDevToolsUrl(chrome, getOutput) {
-  for (let attempt = 0; attempt < 120; attempt += 1) {
+async function waitForDevToolsUrl(chrome, getOutput, profileDir) {
+  const deadline = Date.now() + 30_000;
+  const activePortFile = join(profileDir, "DevToolsActivePort");
+  while (Date.now() < deadline) {
     if (chrome.exitCode !== null) {
-      throw new Error(`Chrome exited before DevTools became available (code ${chrome.exitCode}).`);
+      throw new Error(
+        `Chrome exited before DevTools became available (code ${chrome.exitCode}).\n`
+        + `Chrome output:\n${getOutput().trim() || "(none)"}`,
+      );
     }
     const match = getOutput().match(/DevTools listening on (ws:\/\/\S+)/);
     if (match) return match[1];
+    try {
+      const [port, browserPath] = (await readFile(activePortFile, "utf8")).trim().split(/\r?\n/, 2);
+      if (/^\d+$/.test(port) && browserPath?.startsWith("/")) {
+        return `ws://127.0.0.1:${port}${browserPath}`;
+      }
+    } catch {
+      // Chrome creates DevToolsActivePort asynchronously; keep polling.
+    }
     await delay(100);
   }
-  throw new Error("Timed out waiting for Chrome to announce its DevTools endpoint.");
+  throw new Error(
+    "Timed out after 30 seconds waiting for Chrome's DevTools endpoint.\n"
+    + `Chrome output:\n${getOutput().trim() || "(none)"}`,
+  );
 }
 
 class CdpSession {
@@ -320,7 +336,7 @@ const networkFailures = [];
 const badResponses = [];
 
 try {
-  const browserWebSocketUrl = await waitForDevToolsUrl(chrome, () => chromeOutput);
+  const browserWebSocketUrl = await waitForDevToolsUrl(chrome, () => chromeOutput, profileDir);
   const devToolsOrigin = `http://${new URL(browserWebSocketUrl).host}`;
   const target = await requestJson(
     `${devToolsOrigin}/json/new?${encodeURIComponent("about:blank")}`,
