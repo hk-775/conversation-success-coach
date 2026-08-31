@@ -13,6 +13,8 @@ The complete supported profile is a local or single-host evaluation:
 ./scripts/demo.sh
 ```
 
+The supported installer and runner is `uv`; commands use `uv.lock`.
+
 ## Docker Compose
 
 ```bash
@@ -45,6 +47,7 @@ demo and container port.
 | Variable | Default | Purpose |
 |---|---|---|
 | `CSC_HOST` | `127.0.0.1` | Bind interface |
+| `CSC_BIND_ADDRESS` | `127.0.0.1` | Compose host-side bind address |
 | `CSC_PORT` | `8103` | Local/demo port |
 | `CSC_DATABASE_PATH` | `data/conversation_success_coach.db` | SQLite path |
 | `CSC_DEMO_SEED` | `true` | Seed fictional demo state |
@@ -72,8 +75,27 @@ Validate equality with:
 ./scripts/validate.sh
 ```
 
-The static dashboard falls back to a clearly labeled in-browser preview. It
-does not attempt cross-origin calls to a local operator service.
+The static dashboard enters a clearly labeled published mode on GitHub Pages or
+with `?public-site=true`. It supports browser-local scenario exploration and
+synthetic analysis, disables state-changing controls, and makes no API,
+external HTTP, or WebSocket request.
+
+## Proposed AWS reference
+
+`site/assets/aws-reference-architecture.png` and its editable draw.io source
+show a possible production direction:
+
+- CloudFront with WAF;
+- S3 through Origin Access Control for static assets;
+- a CloudFront VPC origin to an internal ALB;
+- Cognito for human authentication;
+- ECS Fargate in private multi-AZ subnets;
+- RDS for PostgreSQL Multi-AZ;
+- Secrets Manager, KMS, EventBridge Scheduler, CloudWatch, ECR, and GitHub
+  Actions OIDC.
+
+This repository does not deploy that topology and includes no infrastructure
+templates. Treat the diagram as an architecture discussion artifact only.
 
 ## Production gap
 
@@ -176,4 +198,3 @@ The script:
 5. posts a real analysis request;
 6. verifies manual-only and no-auto-send response flags; and
 7. stops the service and removes the temporary directory.
-

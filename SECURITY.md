@@ -8,9 +8,8 @@ main development branch.
 ## Reporting a vulnerability
 
 Do not open a public issue containing exploit details, credentials, sensitive
-conversation content, or personal data. Contact the project maintainer through
-the private security-reporting channel associated with the repository where
-this package is hosted.
+conversation content, or personal data. Use the repository's private
+vulnerability-reporting channel.
 
 Include:
 
@@ -60,9 +59,11 @@ See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Dependency and supply-chain practices
 
-CI tests Python 3.11 and 3.12, runs Ruff and pytest, validates the static mirror,
-and performs a localhost smoke test on port `8103`. Before a production release,
-maintainers should additionally produce a locked dependency set, dependency
-audit, container vulnerability scan, signed release artifact, and software bill
-of materials.
+CI tests Python 3.11 and 3.12, runs Ruff, pytest with branch coverage, Bandit,
+and a locked dependency audit, validates the static mirror and diagrams, tests
+the published site in Chrome, verifies the wheel outside the checkout, and
+performs a localhost smoke test on port `8103`.
 
+Before production use, add continuous container scanning, signed releases,
+provenance attestations, and a software bill of materials. See
+[docs/PRODUCTION_READINESS.md](docs/PRODUCTION_READINESS.md).

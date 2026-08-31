@@ -1,4 +1,4 @@
-.PHONY: demo test validate smoke sync-site
+.PHONY: demo test validate smoke sync-site public-site build
 
 demo:
 	./scripts/demo.sh
@@ -15,3 +15,8 @@ smoke:
 sync-site:
 	./scripts/sync-site.sh
 
+public-site:
+	node scripts/test_public_site.mjs
+
+build:
+	uv build

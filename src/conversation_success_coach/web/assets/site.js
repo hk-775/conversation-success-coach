@@ -1,6 +1,22 @@
 (() => {
     "use strict";
 
+    const publishedStaticSite = (
+        window.location.hostname.endsWith(".github.io")
+        || new URLSearchParams(window.location.search).get("public-site") === "true"
+    );
+    document.documentElement.dataset.publicSite = String(publishedStaticSite);
+
+    if (publishedStaticSite) {
+        document.querySelectorAll("[data-public-preview]").forEach((banner) => {
+            banner.hidden = false;
+        });
+        document.querySelectorAll("[data-local-api-link]").forEach((link) => {
+            link.href = "https://github.com/hk-775/conversation-success-coach/blob/main/docs/API.md";
+            link.textContent = "API reference";
+        });
+    }
+
     const menuButton = document.querySelector(".mobile-menu-button");
     const siteLinks = document.querySelector("#site-links");
     if (menuButton && siteLinks) {

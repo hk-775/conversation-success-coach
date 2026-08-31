@@ -22,7 +22,12 @@ def _parser() -> argparse.ArgumentParser:
 
     serve = subparsers.add_parser("serve", help="Run the seeded local product")
     serve.add_argument("--host", default=None)
-    serve.add_argument("--port", type=int, default=None)
+    serve.add_argument(
+        "--port",
+        type=int,
+        default=None,
+        help="Bind port (default: CSC_PORT or 8103)",
+    )
     serve.add_argument("--no-demo-seed", action="store_true")
 
     reset = subparsers.add_parser("reset-demo", help="Reset fictional demo data")

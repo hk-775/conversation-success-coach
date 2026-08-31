@@ -1,23 +1,52 @@
 # Conversation Success Coach
 
+[![CI](https://github.com/hk-775/conversation-success-coach/actions/workflows/ci.yml/badge.svg)](https://github.com/hk-775/conversation-success-coach/actions/workflows/ci.yml)
+[![Project site](https://github.com/hk-775/conversation-success-coach/actions/workflows/pages.yml/badge.svg)](https://hk-775.github.io/conversation-success-coach/)
+[![License: MIT-0](https://img.shields.io/badge/License-MIT--0-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB.svg)](pyproject.toml)
+
 Conversation Success Coach is an open-source, human-in-control coaching system
-for consequential conversations. It analyzes observable conversation patterns,
-explains what it found, and suggests editable next-best actions for:
+for consequential conversations. It analyzes observable language and turn
+structure, explains what it found, and suggests editable next actions for:
 
 - sales;
 - customer support;
 - recruiting; and
 - community moderation.
 
-It runs locally with a real FastAPI service, SQLite state, four fictional seeded
-scenarios, a responsive operator dashboard, and an animated architecture
-explorer. It makes no external model or network calls and requires no
-credentials.
+It does not send messages, infer protected traits, diagnose people, or claim to
+know hidden emotion or intent.
 
-## Start the seeded demo
+## Explore
 
-Prerequisites: Python 3.11+ and either
-[uv](https://docs.astral.sh/uv/) or an environment with FastAPI and Uvicorn.
+- [Published product site](https://hk-775.github.io/conversation-success-coach/)
+- [Published synthetic dashboard](https://hk-775.github.io/conversation-success-coach/dashboard.html)
+- [Interactive architecture](https://hk-775.github.io/conversation-success-coach/architecture.html)
+- [Evaluator startup guide](STARTUP.md)
+- [Five-to-ten-minute demo guide](docs/DEMO.md)
+
+The published dashboard uses fictional browser-local data and makes no API or
+WebSocket calls. It supports navigation, scenario selection, guided review, and
+synthetic analysis. State-changing controls are deliberately disabled. Run the
+local service for the complete workflow.
+
+## Current architecture
+
+![Conversation Success Coach current architecture](site/assets/system-architecture.png)
+
+[Editable draw.io source](site/assets/system-architecture.drawio)
+
+Version 0.1 is intentionally compact: a static browser experience, strict
+FastAPI contracts, a responsible-use boundary, deterministic analyzers, four
+mode adapters, human review, and optional bounded SQLite persistence.
+
+## Start the fully seeded local demo
+
+Requirements:
+
+- Python 3.11 or newer;
+- [`uv`](https://docs.astral.sh/uv/); and
+- local port `8103`.
 
 ```bash
 ./scripts/demo.sh
@@ -28,89 +57,81 @@ Open:
 - product home: `http://127.0.0.1:8103`
 - dashboard: `http://127.0.0.1:8103/dashboard`
 - architecture: `http://127.0.0.1:8103/architecture`
-- OpenAPI UI: `http://127.0.0.1:8103/docs`
+- OpenAPI: `http://127.0.0.1:8103/docs`
 
-The first launch seeds sales, support, recruiting, and community scenarios,
-their analyses, playbooks, feedback, outcomes, and content-minimized audit
-history.
+The first launch creates a local SQLite database and seeds four fictional
+scenarios, their real deterministic analyses, playbooks, feedback, outcomes,
+privacy settings, and content-minimized audit history.
 
-Docker is also one command:
+Docker is also supported:
 
 ```bash
 docker compose up --build
 ```
 
-See [QUICKSTART.md](QUICKSTART.md) for the complete walkthrough.
+Compose binds the unauthenticated demo to `127.0.0.1:8103` by default. Do not
+expose it to an untrusted network.
 
-## What the coach analyzes
+See [QUICKSTART.md](QUICKSTART.md) for the walkthrough and troubleshooting.
 
-Each response includes:
+## What the coach returns
+
+Each analysis includes:
 
 - **momentum** — turn balance, forward-motion cues, stalling language, and open
   loops;
-- **tone** — observable courtesy, friction, emphasis, and hostile-language cues;
-- **unanswered questions** — topic-aware detection for pricing, timing,
-  implementation, policy, remote/location, remedy, and privacy questions;
+- **tone** — observable courtesy, friction, emphasis, and hostile-language
+  cues;
 - **clarity** — sentence structure, vague qualifiers, and concrete time or
   quantity cues;
-- **empathy** — explicit acknowledgment of stated impact, without claiming to
-  know hidden emotion;
-- **risk and escalation** — threats, harassment, trust breaks, and obvious
-  sensitive-data shapes; and
-- **next-best actions** — mode-specific, editable suggestions with rationale,
-  evidence, confidence, limitations, and playbook references.
+- **empathy** — explicit acknowledgment of stated impact, without claiming
+  hidden emotion;
+- **unanswered questions** — topic-aware open-loop detection;
+- **risk and escalation** — visible threat, harassment, trust-break, and
+  sensitive-data cues; and
+- **next-best actions** — mode-specific suggestions with rationale, evidence,
+  confidence, limitations, and playbook references.
 
 Equal normalized inputs produce equal fingerprints, scores, and suggestions.
 The engine is deterministic Python code, not a remote model wrapper.
 
-## Product experience
-
-The operator dashboard includes:
-
-- overview KPIs and average signals;
-- a live conversation workspace;
-- suggestion acceptance and rejection;
-- neutral outcome feedback;
-- mode-scoped playbooks;
-- privacy and retention controls;
-- content-minimized audit history;
-- a guided meeting walkthrough; and
-- one-click demo reset.
-
-The `site/` directory is an exact static mirror of the served landing,
-dashboard, architecture, and assets. When published without the API, the
-dashboard automatically becomes a clearly labeled static preview.
-
 ## Human agency and responsible use
 
-Conversation Success Coach provides suggestions only.
+Every suggestion is optional and marked:
 
-- It has no message-send endpoint or delivery transport.
-- It never impersonates an operator.
-- Every suggestion is marked `manual_only`, `requires_human_review=true`, and
-  `can_auto_send=false`.
-- It does not infer protected attributes.
-- It does not diagnose mental health or personality.
-- It does not help fabricate deadlines, scarcity, or urgency.
-- It does not optimize for dependency or covert manipulation.
+```json
+{
+  "delivery": "manual_only",
+  "requires_human_review": true,
+  "can_auto_send": false
+}
+```
 
-Explicit unsafe objectives are returned as a responsible-use redirection with a
-transparent alternative. See [docs/ETHICS.md](docs/ETHICS.md).
+The implementation redirects explicit requests for:
+
+- covert manipulation;
+- protected-attribute inference or targeting;
+- mental-health or personality diagnosis;
+- fabricated urgency or scarcity;
+- dependency optimization;
+- impersonation; and
+- automatic message delivery.
+
+These controls are useful boundaries, not a complete legal, discrimination,
+DLP, or safety assurance system. See [docs/ETHICS.md](docs/ETHICS.md).
 
 ## Data minimization
 
-Ad hoc analysis defaults to no persistence. Persisted analyses require an
-explicit 1–30 day retention period. Raw conversation storage additionally
-requires:
+- Ad hoc analysis is stateless by default.
+- Persisted analysis requires a 1–30 day retention period.
+- Raw conversation storage additionally requires the operator setting,
+  request-level consent, and an expiry.
+- Audit records exclude transcript text and free-form feedback-note contents.
+- Evidence excerpts redact several common direct-identifier shapes.
+- Privacy APIs support conversation purge, all-non-demo purge, and retention
+  enforcement.
 
-1. the operator-level raw-storage setting;
-2. request-level consent confirmation; and
-3. a bounded conversation expiry.
-
-Audit events contain state metadata and counts, not transcript text or feedback
-note contents. Common direct-identifier shapes are redacted from evidence
-excerpts. Privacy APIs support per-conversation purge, all-non-demo purge, and
-retention enforcement.
+Pattern redaction is not complete DLP. Use fictional data for evaluation.
 
 ## API example
 
@@ -134,78 +155,82 @@ curl -s http://127.0.0.1:8103/api/v1/analyze \
   }'
 ```
 
-Important response fields:
+See [docs/API.md](docs/API.md) for endpoints and schema behavior.
 
-```json
-{
-  "overall_score": 54,
-  "status": "watch",
-  "signals": {
-    "momentum": {"score": 60, "label": "steady", "confidence": 0.55},
-    "tone": {"score": 52, "label": "strained", "confidence": 0.52},
-    "clarity": {"score": 78, "label": "crisp", "confidence": 0.5},
-    "empathy": {"score": 34, "label": "missing", "confidence": 0.5}
-  },
-  "suggestions": [
-    {
-      "title": "Answer the open loop directly",
-      "delivery": "manual_only",
-      "requires_human_review": true,
-      "can_auto_send": false
-    }
-  ]
-}
-```
+## Published artifact behavior
 
-See [docs/API.md](docs/API.md) for every endpoint and schema behavior.
-
-## Architecture
+The canonical browser source is:
 
 ```text
-Static browser UI
-        │
-        ▼
-Validated FastAPI contracts
-        │
-        ├── Responsible-use policy
-        ├── Deterministic signal analyzers
-        ├── Mode-specific coaching adapters
-        └── Explanation and limitation builder
-        │
-        ▼
-Human review ───── optional bounded persistence ─────► SQLite
+src/conversation_success_coach/web/
 ```
 
-The service, engine, repository, seed, and static experience are intentionally
-compact enough to inspect in one sitting. See
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+`site/` is an exact byte-for-byte publication mirror. The package and Pages
+workflows reject drift.
 
-## API surface
+In published mode:
 
-| Area | Endpoints |
-|---|---|
-| System | `GET /api/v1/health`, `GET /api/v1/responsible-use` |
-| Conversations | `GET/POST /api/v1/conversations`, `GET /api/v1/conversations/{id}`, `POST /api/v1/conversations/{id}/turns` |
-| Coaching | `POST /api/v1/analyze`, `POST /api/v1/suggestions` |
-| Feedback | `GET/POST /api/v1/feedback` |
-| Playbooks | `GET/POST /api/v1/playbooks`, `PATCH/DELETE /api/v1/playbooks/{id}` |
-| Observability | `GET /api/v1/metrics`, `GET /api/v1/audit` |
-| Privacy | `GET/PUT /api/v1/privacy/settings`, `POST /api/v1/privacy/purge`, `POST /api/v1/privacy/retention/run` |
-| Demo | `POST /api/v1/demo/reset` |
+- the Pages subpath is tested in Chrome;
+- landing, dashboard, architecture, diagrams, guided tour, and mobile layout
+  remain functional;
+- synthetic analysis stays in the browser;
+- reset, transcript edits, feedback, playbook mutation, privacy mutation,
+  purge, and retention controls are disabled; and
+- no API, external HTTP request, or WebSocket is allowed.
 
-## Development
+## Proposed AWS reference
+
+![Proposed AWS reference architecture](site/assets/aws-reference-architecture.png)
+
+[Editable draw.io source](site/assets/aws-reference-architecture.drawio)
+
+This is a proposed production direction, not a deployed environment. Version
+0.1 provisions no AWS resources and ships no infrastructure-as-code.
+
+The reference shows:
+
+- Route 53 and ACM for DNS and TLS;
+- AWS WAF and CloudFront;
+- private S3 static hosting through Origin Access Control;
+- a CloudFront VPC origin to an internal Application Load Balancer;
+- Cognito authentication for human operators;
+- ECS Fargate tasks across private subnets and Availability Zones;
+- Amazon RDS for PostgreSQL Multi-AZ;
+- Secrets Manager, KMS, and EventBridge Scheduler;
+- privacy-aware CloudWatch telemetry; and
+- GitHub Actions OIDC, ECR, and reviewed deployment promotion.
+
+Production blockers and assumptions are documented in
+[docs/PRODUCTION_READINESS.md](docs/PRODUCTION_READINESS.md),
+[docs/THREAT_MODEL.md](docs/THREAT_MODEL.md), and
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Validate the package
 
 ```bash
+uv sync --locked --extra dev
 ./scripts/test.sh
 ./scripts/validate.sh
 ./scripts/smoke.sh
+node scripts/test_public_site.mjs
+uv build
 ```
 
-The smoke test starts the real product on the standard demo port, `8103`, and
-checks health, all three pages, seeded state, analysis, and manual-only
-suggestion flags.
+Validation covers:
 
-Project structure:
+- Python 3.11 and 3.12;
+- branch coverage at or above 80%;
+- Ruff and Bandit;
+- locked dependency auditing;
+- required open-source artifacts;
+- exact static mirror equality;
+- editable draw.io and PNG dimensions;
+- immutable GitHub Action references;
+- a real API smoke test on port `8103`;
+- wheel installation outside the checkout; and
+- Chrome behavior at the GitHub Pages repository subpath.
+
+## Project structure
 
 ```text
 src/conversation_success_coach/
@@ -215,27 +240,33 @@ src/conversation_success_coach/
   repository.py     SQLite state, metrics, audit, purge, retention
   seed.py           canonical fictional demo
   app.py            FastAPI application and pages
-  web/              served landing, dashboard, architecture, assets
-site/               exact publishable static mirror of web/
-tests/              mode, safety, determinism, state, feedback, privacy tests
-docs/               architecture, ethics, API, demo, deployment
+  web/              canonical landing, dashboard, architecture, assets
+site/               exact publishable mirror
+tests/              analysis, safety, state, feedback, privacy tests
+docs/               API, architecture, demo, ethics, deployment, readiness
 ```
 
-## Limitations
+## Documentation
 
-- Language analysis is heuristic and English-oriented.
-- It can miss irony, organizational context, policy nuance, and power dynamics.
-- It does not transcribe calls or integrate with email, CRM, ticketing, ATS, or
-  community platforms.
-- The local demo has no authentication or multi-tenant authorization. Do not
-  expose it directly to an untrusted network.
-- SQLite is appropriate for this standalone demo, not a high-write distributed
-  deployment.
-- Feedback and outcomes are directional; they do not establish causal impact.
+- [Quick start](QUICKSTART.md)
+- [Evaluator startup](STARTUP.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [API reference](docs/API.md)
+- [Demo guide](docs/DEMO.md)
+- [Ethics and responsible use](docs/ETHICS.md)
+- [Threat model](docs/THREAT_MODEL.md)
+- [Production readiness](docs/PRODUCTION_READINESS.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Publication inventory](docs/PUBLICATION_ARTIFACTS.md)
+- [Security policy](SECURITY.md)
+- [Contributing](CONTRIBUTING.md)
+- [Governance](GOVERNANCE.md)
+- [Support](SUPPORT.md)
+- [Launch materials](launch-materials.md)
 
-## License and conduct
+## Status and license
 
-Licensed under [MIT-0](LICENSE). See [CONTRIBUTING.md](CONTRIBUTING.md),
-[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), and
-[NOTICE](NOTICE).
+Version 0.1 is an alpha-quality local evaluation package. It is not a
+production multi-user service.
 
+Licensed under [MIT-0](LICENSE). See [NOTICE](NOTICE).

@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Explainable, human-controlled conversation coaching for sales, support, recruiting, and communities. Runs locally with no external credentials.">
     <meta name="theme-color" content="#102a22">
+    <link rel="canonical" href="https://hk-775.github.io/conversation-success-coach/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Conversation Success Coach">
+    <meta property="og:description" content="Explainable, human-controlled conversation coaching with a fully seeded synthetic demo.">
+    <meta property="og:url" content="https://hk-775.github.io/conversation-success-coach/">
+    <meta property="og:image" content="https://hk-775.github.io/conversation-success-coach/assets/system-architecture.png">
     <title>Conversation Success Coach — Better conversations, human controlled</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23176b5b'/%3E%3Cpath d='M8 9.5h16v9H14l-5 4v-4H8z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m12 14 2.3 2.2L20 11' fill='none' stroke='%2383dfc2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="assets/styles.css">
@@ -39,6 +45,11 @@
             </div>
         </div>
     </nav>
+
+    <div class="public-preview-banner" data-public-preview hidden>
+        <strong>Published synthetic preview</strong>
+        <span>Fictional demo data only. The dashboard runs entirely in this browser and makes no API calls.</span>
+    </div>
 
     <main id="main" class="landing-main">
         <section class="hero">
@@ -405,7 +416,7 @@
                     </a>
                     <p class="footer-note">A neutral, local-first coaching system for teams that want better conversational outcomes without automating away human judgment.</p>
                 </div>
-                <div class="footer-column"><strong>Product</strong><a href="dashboard.html">Dashboard</a><a href="architecture.html">Architecture</a><a href="docs">API docs</a></div>
+                <div class="footer-column"><strong>Product</strong><a href="dashboard.html">Dashboard</a><a href="architecture.html">Architecture</a><a href="/docs" data-local-api-link>API docs</a></div>
                 <div class="footer-column"><strong>Principles</strong><a href="#principles">Human agency</a><a href="#principles">Responsible use</a><a href="#principles">Data minimization</a></div>
                 <div class="footer-column"><strong>Modes</strong><a href="#modes">Sales</a><a href="#modes">Support</a><a href="#modes">Recruiting</a><a href="#modes">Community</a></div>
             </div>
@@ -416,4 +427,3 @@
     <script src="assets/site.js"></script>
 </body>
 </html>
-

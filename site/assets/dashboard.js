@@ -2,6 +2,12 @@
     "use strict";
 
     const API = "/api/v1";
+    const publishedStaticSite = (
+        window.location.hostname.endsWith(".github.io")
+        || new URLSearchParams(window.location.search).get("public-site") === "true"
+    );
+    document.documentElement.dataset.publicSite = String(publishedStaticSite);
+
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
     const escapeHtml = (value) =>
@@ -99,7 +105,9 @@
                 explanation: "Coaching is advisory only and never sends messages.",
             },
             limitations: [
-                "Static preview: start the local API for stateful behavior.",
+                publishedStaticSite
+                    ? "Published synthetic preview: state is browser-local and resets on reload."
+                    : "Static preview: start the local API for stateful behavior.",
                 "Tone and empathy describe observable language, not hidden emotion.",
             ],
             persisted: false,
@@ -228,7 +236,7 @@
     };
 
     let staticStore = buildStaticStore();
-    let staticMode = false;
+    let staticMode = publishedStaticSite;
     const state = {
         conversations: [],
         selectedId: null,
@@ -270,77 +278,87 @@
     };
 
     const staticApi = async (path, options = {}) => {
+        const route = path.split("?", 1)[0];
         const method = (options.method || "GET").toUpperCase();
         const body = options.body ? JSON.parse(options.body) : null;
-        if (path === "/health") {
+        if (
+            publishedStaticSite
+            && method !== "GET"
+            && !(route === "/analyze" && method === "POST")
+        ) {
+            throw new Error(
+                "The published preview is read-only. Start the local service for state changes.",
+            );
+        }
+        if (route === "/health") {
             return { status: "ok", engine: "static-preview", external_network_calls: false, message_delivery_capability: false };
         }
-        if (path === "/conversations" && method === "GET") {
+        if (route === "/conversations" && method === "GET") {
             return { items: staticStore.conversations.map(({ turns, ...item }) => ({ ...item, turn_count: turns.length, last_message: turns.at(-1)?.text })) };
         }
-        if (path.startsWith("/conversations/") && method === "GET") {
-            const id = path.split("/")[2];
+        if (route.startsWith("/conversations/") && method === "GET") {
+            const id = route.split("/")[2];
             return structuredClone(staticStore.conversations.find((item) => item.id === id));
         }
-        if (path.endsWith("/turns") && method === "POST") {
-            const id = path.split("/")[2];
+        if (route.endsWith("/turns") && method === "POST") {
+            const id = route.split("/")[2];
             const conversation = staticStore.conversations.find((item) => item.id === id);
             const turn = { id: `turn_static_${Date.now()}`, position: conversation.turns.length, speaker: body.role === "operator" ? conversation.owner : conversation.participant_label, role: body.role, text: body.text, created_at: nowIso() };
             conversation.turns.push(turn);
             conversation.updated_at = nowIso();
             return turn;
         }
-        if (path === "/analyze" && method === "POST") {
+        if (route === "/analyze" && method === "POST") {
             const conversation = staticStore.conversations.find((item) => item.id === body.conversation_id) || { id: body.conversation_id, mode: body.mode, turns: body.turns };
             const result = makeStaticAnalysis(conversation, 62);
             conversation.latest_analysis = result;
             return result;
         }
-        if (path === "/metrics") {
+        if (route === "/metrics") {
             return staticMetrics();
         }
-        if (path === "/playbooks" && method === "GET") {
+        if (route === "/playbooks" && method === "GET") {
             return { items: structuredClone(staticStore.playbooks) };
         }
-        if (path === "/playbooks" && method === "POST") {
+        if (route === "/playbooks" && method === "POST") {
             const item = { id: `pb_static_${Date.now()}`, ...body, is_demo: false, created_at: nowIso(), updated_at: nowIso() };
             staticStore.playbooks.push(item);
             return item;
         }
-        if (path.startsWith("/playbooks/") && method === "PATCH") {
-            const id = path.split("/")[2];
+        if (route.startsWith("/playbooks/") && method === "PATCH") {
+            const id = route.split("/")[2];
             const item = staticStore.playbooks.find((candidate) => candidate.id === id);
             Object.assign(item, body, { updated_at: nowIso() });
             return item;
         }
-        if (path === "/privacy/settings" && method === "GET") {
+        if (route === "/privacy/settings" && method === "GET") {
             return structuredClone(staticStore.privacy);
         }
-        if (path === "/privacy/settings" && method === "PUT") {
+        if (route === "/privacy/settings" && method === "PUT") {
             staticStore.privacy = { ...staticStore.privacy, ...body, updated_at: nowIso() };
             return structuredClone(staticStore.privacy);
         }
-        if (path === "/privacy/retention/run") {
+        if (route === "/privacy/retention/run") {
             return { status: "completed", deleted: { analyses: 0, conversations: 0, audit: 0 } };
         }
-        if (path === "/privacy/purge") {
+        if (route === "/privacy/purge") {
             if (body.scope === "conversation") {
                 staticStore.conversations = staticStore.conversations.filter((item) => item.id !== body.conversation_id);
             }
             return { status: "completed", scope: body.scope, deleted: { conversations: 1 }, audit_retained: true };
         }
-        if (path === "/feedback" && method === "GET") {
+        if (route === "/feedback" && method === "GET") {
             return { items: structuredClone(staticStore.feedback) };
         }
-        if (path === "/feedback" && method === "POST") {
+        if (route === "/feedback" && method === "POST") {
             const item = { id: `fb_static_${Date.now()}`, ...body, created_at: nowIso() };
             staticStore.feedback.unshift(item);
             return item;
         }
-        if (path === "/audit") {
+        if (route === "/audit") {
             return { items: structuredClone(staticStore.audit) };
         }
-        if (path === "/demo/reset") {
+        if (route === "/demo/reset") {
             staticStore = buildStaticStore();
             return { status: "reset", conversations: 4, playbooks: 4, fictional_data: true };
         }
@@ -348,21 +366,27 @@
     };
 
     const detectApi = async () => {
-        try {
-            const response = await fetch(`${API}/health`, { headers: { Accept: "application/json" }, cache: "no-store" });
-            if (!response.ok || !(response.headers.get("content-type") || "").includes("application/json")) {
-                throw new Error("Local API unavailable");
+        if (!publishedStaticSite) {
+            try {
+                const response = await fetch(`${API}/health`, { headers: { Accept: "application/json" }, cache: "no-store" });
+                if (!response.ok || !(response.headers.get("content-type") || "").includes("application/json")) {
+                    throw new Error("Local API unavailable");
+                }
+                await response.json();
+                staticMode = false;
+            } catch {
+                staticMode = true;
             }
-            await response.json();
-            staticMode = false;
-        } catch {
-            staticMode = true;
         }
         const dot = $("[data-api-status-dot]");
         const label = $("[data-api-status]");
         dot?.classList.toggle("offline", staticMode);
         if (label) {
-            label.textContent = staticMode ? "Static preview · start local API for writes" : "Local deterministic service online";
+            label.textContent = publishedStaticSite
+                ? "Published synthetic preview · no API calls"
+                : staticMode
+                    ? "Static preview · browser-local state"
+                    : "Local deterministic service online";
         }
     };
 
@@ -567,8 +591,8 @@
                             <div class="suggestion-meta"><span>${item.evidence.length} evidence cue(s)</span><span class="confidence-pill">${Math.round(item.confidence * 100)}% confidence</span></div>
                         </div>
                         <div class="suggestion-actions">
-                            <button class="button button-small button-primary" type="button" data-use-suggestion="${escapeHtml(item.id)}">Use as draft</button>
-                            <button class="button button-small button-secondary" type="button" data-reject-suggestion="${escapeHtml(item.id)}">Not useful</button>
+                            <button class="button button-small button-primary" type="button" data-use-suggestion="${escapeHtml(item.id)}" ${publishedStaticSite ? 'disabled aria-disabled="true" title="Start the local service to record suggestion feedback."' : ""}>${publishedStaticSite ? "Read-only preview" : "Use as draft"}</button>
+                            <button class="button button-small button-secondary" type="button" data-reject-suggestion="${escapeHtml(item.id)}" ${publishedStaticSite ? 'disabled aria-disabled="true" title="Start the local service to record suggestion feedback."' : ""}>${publishedStaticSite ? "No feedback writes" : "Not useful"}</button>
                         </div>
                     </article>
                 `,
@@ -652,7 +676,7 @@
                         <div class="playbook-head">
                             <div><span class="conversation-mode ${escapeHtml(item.mode)}">${escapeHtml(modeLabel(item.mode))}</span><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description)}</p></div>
                             <label class="toggle">
-                                <input type="checkbox" ${item.enabled ? "checked" : ""} data-playbook-toggle="${escapeHtml(item.id)}">
+                                <input type="checkbox" ${item.enabled ? "checked" : ""} data-playbook-toggle="${escapeHtml(item.id)}" ${publishedStaticSite ? 'disabled aria-disabled="true"' : ""}>
                                 <span class="toggle-track"></span>
                                 <span class="sr-only">Enable ${escapeHtml(item.name)}</span>
                             </label>
@@ -707,6 +731,42 @@
             : '<tr><td colspan="5">No audit events.</td></tr>';
     };
 
+    const applyPublishedReadOnly = () => {
+        if (!publishedStaticSite) {
+            return;
+        }
+        $$("[data-public-dashboard-preview]").forEach((banner) => {
+            banner.hidden = false;
+        });
+        const runtimeBadge = $("[data-runtime-badge]");
+        if (runtimeBadge) {
+            runtimeBadge.textContent = "Published preview";
+        }
+        const statefulSelectors = [
+            "[data-reset-demo]",
+            "[data-save-privacy]",
+            "[data-purge-conversation]",
+            "[data-run-retention]",
+            "[data-open-playbook]",
+            "[data-outcome]",
+            "[data-turn-form] textarea",
+            "[data-turn-form] select",
+            "[data-turn-form] button",
+            "[data-privacy-raw]",
+            "[data-privacy-analysis-days]",
+            "[data-privacy-audit-days]",
+            "[data-playbook-form] input",
+            "[data-playbook-form] textarea",
+            "[data-playbook-form] select",
+            "[data-playbook-form] button",
+        ];
+        $$(statefulSelectors.join(", ")).forEach((control) => {
+            control.disabled = true;
+            control.setAttribute("aria-disabled", "true");
+            control.title = "Read-only in the published synthetic preview. Start the local service for state changes.";
+        });
+    };
+
     const selectConversation = async (id) => {
         state.selectedId = id;
         renderScenarioControls();
@@ -718,6 +778,7 @@
             renderAnalysis();
             renderSuggestions();
             renderConversationList();
+            applyPublishedReadOnly();
         } catch (error) {
             toast(error.message, true);
         }
@@ -986,6 +1047,7 @@
             refreshPrivacy(),
             refreshAudit(),
         ]);
+        applyPublishedReadOnly();
     };
 
     const tourSteps = [
@@ -1140,6 +1202,7 @@
 
     const initialize = async () => {
         bindEvents();
+        applyPublishedReadOnly();
         try {
             await detectApi();
             await reloadAll();
