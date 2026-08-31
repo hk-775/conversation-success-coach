@@ -13,6 +13,23 @@ Conversation Success Coach is intentionally a compact standalone product:
 The architecture favors explainability, meeting reliability, and easy code
 inspection over distributed scale.
 
+## Published diagrams
+
+Current implementation:
+
+![Current system architecture](../site/assets/system-architecture.png)
+
+- editable source: `site/assets/system-architecture.drawio`
+- packaged source: `src/conversation_success_coach/web/assets/`
+
+Proposed AWS production direction:
+
+![Proposed AWS reference architecture](../site/assets/aws-reference-architecture.png)
+
+- editable source: `site/assets/aws-reference-architecture.drawio`
+- status: reference only; not deployed
+- version 0.1 provisions no AWS resources and includes no infrastructure-as-code
+
 ## Logical view
 
 ```mermaid
@@ -44,9 +61,12 @@ The FastAPI service serves the same files that are mirrored under `site/`.
 `./scripts/sync-site.sh` performs the mirror, and `./scripts/validate.sh`
 requires it to be exact.
 
-When `site/dashboard.html` is published without an API, the dashboard switches
-to a clearly labeled in-browser static preview. Stateful behavior is available
-only from the local service.
+When `site/dashboard.html` is published on GitHub Pages or opened with
+`?public-site=true`, it switches before any API probe to a clearly labeled
+read-only synthetic preview. Navigation, scenarios, guided review, and
+browser-local analysis remain functional. All state-changing controls are
+disabled. The Chrome publication test rejects API, external HTTP, and WebSocket
+traffic.
 
 ### FastAPI application
 
@@ -174,6 +194,31 @@ is enabled for a file-backed database. One connection is protected by a
 reentrant lock for the standalone server and test client.
 
 This design is not intended for high-write, multi-replica deployment.
+
+## Proposed AWS reference
+
+The reference diagram separates the public static site from the private
+application plane:
+
+- Route 53 and ACM provide DNS and TLS.
+- AWS WAF protects CloudFront.
+- CloudFront serves an S3 origin through Origin Access Control.
+- `/api/*` uses a CloudFront VPC origin to an internal Application Load
+  Balancer.
+- The ALB authenticates human sessions with Cognito.
+- ECS Fargate runs the FastAPI and deterministic coaching service in private
+  subnets across Availability Zones.
+- Amazon RDS for PostgreSQL Multi-AZ replaces SQLite.
+- Secrets Manager and KMS protect runtime credentials and stored data.
+- EventBridge Scheduler invokes bounded retention enforcement.
+- CloudWatch receives content-minimized logs, metrics, and alarms.
+- GitHub Actions assumes an OIDC role, publishes a scanned image to ECR, and
+  promotes through a reviewed deployment.
+
+This topology is not a production-readiness claim. Tenant isolation,
+authorization, data classification, migrations, backup/restore, observability,
+incident response, accessibility, security testing, and domain review remain
+blocking work.
 
 ### Audit model
 
@@ -305,4 +350,3 @@ recovery, and an appropriate database or single-writer topology.
 - no authentication or tenant isolation;
 - one-process SQLite state; and
 - no causal inference from outcome feedback.
-

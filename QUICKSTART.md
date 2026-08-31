@@ -5,7 +5,7 @@
 Requirements:
 
 - Python 3.11+;
-- `uv` recommended; and
+- `uv`; and
 - port `8103` available.
 
 ```bash
@@ -89,14 +89,17 @@ All names, organizations, ids, messages, feedback, and outcomes are fictional.
 ./scripts/test.sh
 ./scripts/validate.sh
 ./scripts/smoke.sh
+node scripts/test_public_site.mjs
 ```
 
-`smoke.sh` uses port `8103` by default and a temporary SQLite database.
+`smoke.sh` uses port `8103` by default and a temporary SQLite database. The
+browser test requires Node.js 22 and Chrome or Chromium; it installs no Node
+packages.
 
 ## Reset without the dashboard
 
 ```bash
-uv run conversation-success-coach reset-demo
+uv run --locked conversation-success-coach reset-demo
 ```
 
 Or call:
@@ -131,17 +134,21 @@ CSC_PORT=8104 ./scripts/demo.sh
 
 The documented and container default remains `8103`.
 
-### The static dashboard says “Static preview”
+### The published dashboard says “Published synthetic preview”
 
-You opened `site/dashboard.html` without the API. That is expected. Start the
-local service and use `http://127.0.0.1:8103/dashboard` for stateful behavior.
+That is expected on GitHub Pages or with `?public-site=true`. Scenario
+selection, navigation, the guided tour, and synthetic analysis remain
+interactive. State-changing controls are disabled and the page makes no API or
+WebSocket calls. Start the local service and use
+`http://127.0.0.1:8103/dashboard` for stateful behavior.
 
-### Python resolves below 3.11
+### `uv` cannot find Python 3.11 or newer
 
-Install `uv`, or point the fallback launcher at a supported interpreter:
+Install a supported interpreter, then select it explicitly:
 
 ```bash
-CSC_PYTHON_BIN=/path/to/python3.12 ./scripts/demo.sh
+uv python install 3.12
+UV_PYTHON=3.12 ./scripts/demo.sh
 ```
 
 ### Start without the fictional seed
@@ -152,4 +159,3 @@ CSC_DEMO_SEED=false ./scripts/demo.sh
 
 The dashboard starts empty. New retained conversation workspaces require
 enabling raw storage and confirming bounded retention.
-

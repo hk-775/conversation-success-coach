@@ -20,16 +20,14 @@ cleanup() {
 }
 trap cleanup EXIT
 
-if [[ -z "${CSC_PYTHON_BIN:-}" ]] && command -v uv >/dev/null 2>&1; then
-    CSC_DATABASE_PATH="${TEMP_DIR}/smoke.db" \
-        uv run --python 3.12 --extra dev conversation-success-coach serve \
-        --host 127.0.0.1 --port "${PORT}" >"${SERVER_LOG}" 2>&1 &
-else
-    PYTHON_BIN="${CSC_PYTHON_BIN:-python3}"
-    CSC_DATABASE_PATH="${TEMP_DIR}/smoke.db" \
-        PYTHONPATH=src "${PYTHON_BIN}" -m conversation_success_coach serve \
-        --host 127.0.0.1 --port "${PORT}" >"${SERVER_LOG}" 2>&1 &
+if ! command -v uv >/dev/null 2>&1; then
+    echo "uv is required. Install it from the official Astral distribution, then retry." >&2
+    exit 1
 fi
+
+CSC_DATABASE_PATH="${TEMP_DIR}/smoke.db" \
+    uv run --locked conversation-success-coach serve \
+    --host 127.0.0.1 --port "${PORT}" >"${SERVER_LOG}" 2>&1 &
 SERVER_PID=$!
 
 for _ in $(seq 1 40); do

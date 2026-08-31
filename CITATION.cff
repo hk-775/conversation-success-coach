@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using this metadata."
+title: "Conversation Success Coach"
+type: software
+authors:
+  - name: "Conversation Success Coach Contributors"
+repository-code: "https://github.com/hk-775/conversation-success-coach"
+license: MIT-0
+version: 0.1.0
+date-released: 2026-08-30

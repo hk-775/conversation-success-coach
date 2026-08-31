@@ -23,10 +23,11 @@ and test updates.
 ## Development setup
 
 ```bash
-uv sync --extra dev
+uv sync --locked --extra dev
 ./scripts/test.sh
 ./scripts/validate.sh
 ./scripts/smoke.sh
+node scripts/test_public_site.mjs
 ```
 
 The standard local port is `8103`.
@@ -40,6 +41,8 @@ The standard local port is `8103`.
    `node_modules` out of the change.
 5. Update documentation and `CHANGELOG.md` for user-visible behavior.
 6. Use only fictional names, organizations, messages, ids, and outcomes.
+7. If architecture changes, update both editable draw.io sources, PNG renders,
+   the architecture page, and the production-readiness ledger.
 
 ## Code style
 
@@ -70,4 +73,3 @@ diagnosis.
 
 Keep changes focused. Explain any data-model migration, API compatibility
 impact, new dependency, or security boundary change in the pull request.
-

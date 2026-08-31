@@ -70,17 +70,17 @@ class Repository:
 
     def clear_all(self) -> None:
         with self.db.transaction() as conn:
-            for table in (
-                "feedback",
-                "suggestions",
-                "analyses",
-                "turns",
-                "conversations",
-                "playbooks",
-                "audit",
-                "metadata",
+            for statement in (
+                "DELETE FROM feedback",
+                "DELETE FROM suggestions",
+                "DELETE FROM analyses",
+                "DELETE FROM turns",
+                "DELETE FROM conversations",
+                "DELETE FROM playbooks",
+                "DELETE FROM audit",
+                "DELETE FROM metadata",
             ):
-                conn.execute(f"DELETE FROM {table}")
+                conn.execute(statement)
             conn.execute(
                 """
                 UPDATE privacy_settings
@@ -353,13 +353,9 @@ class Repository:
         self,
         mode: ConversationMode | None = None,
     ) -> list[dict[str, Any]]:
-        params: tuple[Any, ...] = ()
-        where = ""
-        if mode:
-            where = "WHERE c.mode = ?"
-            params = (mode.value,)
+        mode_value = mode.value if mode else None
         rows = self.db.query_all(
-            f"""
+            """
             SELECT c.*,
                    COUNT(t.id) AS turn_count,
                    (
@@ -374,11 +370,11 @@ class Repository:
                    ) AS latest_analysis_json
             FROM conversations c
             LEFT JOIN turns t ON t.conversation_id = c.id
-            {where}
+            WHERE (? IS NULL OR c.mode = ?)
             GROUP BY c.id
             ORDER BY c.updated_at DESC
             """,
-            params,
+            (mode_value, mode_value),
         )
         output: list[dict[str, Any]] = []
         for row in rows:
@@ -558,17 +554,15 @@ class Repository:
         *,
         enabled_only: bool = False,
     ) -> list[dict[str, Any]]:
-        clauses: list[str] = []
-        params: list[Any] = []
-        if mode:
-            clauses.append("mode = ?")
-            params.append(mode.value)
-        if enabled_only:
-            clauses.append("enabled = 1")
-        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        mode_value = mode.value if mode else None
         rows = self.db.query_all(
-            f"SELECT * FROM playbooks {where} ORDER BY mode, name",
-            params,
+            """
+            SELECT * FROM playbooks
+            WHERE (? IS NULL OR mode = ?)
+              AND (? = 0 OR enabled = 1)
+            ORDER BY mode, name
+            """,
+            (mode_value, mode_value, int(enabled_only)),
         )
         return [
             {
@@ -700,7 +694,8 @@ class Repository:
 
     def get_privacy_settings(self) -> dict[str, Any]:
         row = self.db.query_one("SELECT * FROM privacy_settings WHERE id = 1")
-        assert row is not None
+        if row is None:
+            raise RuntimeError("The required privacy settings row is missing.")
         return {
             "allow_raw_content_storage": bool(row["allow_raw_content_storage"]),
             "default_analysis_retention_days": row["default_analysis_retention_days"],
@@ -851,35 +846,39 @@ class Repository:
     # Metrics
 
     def metrics(self, mode: ConversationMode | None = None) -> dict[str, Any]:
-        mode_clause = " WHERE mode = ?" if mode else ""
-        params: tuple[Any, ...] = (mode.value,) if mode else ()
+        mode_value = mode.value if mode else None
+        mode_params = (mode_value, mode_value)
         conversations = int(
             self.db.query_one(
-                f"SELECT COUNT(*) AS count FROM conversations{mode_clause}",
-                params,
+                "SELECT COUNT(*) AS count FROM conversations WHERE (? IS NULL OR mode = ?)",
+                mode_params,
             )["count"]
         )
         analyses_rows = self.db.query_all(
-            f"SELECT result_json, mode, conversation_id FROM analyses{mode_clause}",
-            params,
+            """
+            SELECT result_json, mode, conversation_id
+            FROM analyses
+            WHERE (? IS NULL OR mode = ?)
+            """,
+            mode_params,
         )
         suggestions = int(
             self.db.query_one(
-                f"SELECT COUNT(*) AS count FROM suggestions{mode_clause}",
-                params,
+                "SELECT COUNT(*) AS count FROM suggestions WHERE (? IS NULL OR mode = ?)",
+                mode_params,
             )["count"]
         )
-        feedback_where = ""
-        feedback_params: tuple[Any, ...] = ()
-        if mode:
-            feedback_where = (
-                " WHERE suggestion_id IN (SELECT id FROM suggestions WHERE mode = ?)"
-                " OR conversation_id IN (SELECT id FROM conversations WHERE mode = ?)"
-            )
-            feedback_params = (mode.value, mode.value)
         feedback_rows = self.db.query_all(
-            f"SELECT kind, outcome FROM feedback{feedback_where}",
-            feedback_params,
+            """
+            SELECT kind, outcome
+            FROM feedback
+            WHERE (
+                ? IS NULL
+                OR suggestion_id IN (SELECT id FROM suggestions WHERE mode = ?)
+                OR conversation_id IN (SELECT id FROM conversations WHERE mode = ?)
+            )
+            """,
+            (mode_value, mode_value, mode_value),
         )
         accepted = sum(row["kind"] == "accepted" for row in feedback_rows)
         rejected = sum(row["kind"] == "rejected" for row in feedback_rows)

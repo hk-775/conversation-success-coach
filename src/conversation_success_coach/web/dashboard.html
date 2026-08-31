@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Conversation Success Coach operator dashboard and seeded local demo.">
     <meta name="theme-color" content="#102a22">
+    <link rel="canonical" href="https://hk-775.github.io/conversation-success-coach/dashboard.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Conversation Success Coach — Seeded Dashboard">
+    <meta property="og:description" content="Explore four fictional coaching scenarios in a safe, read-only published preview.">
+    <meta property="og:url" content="https://hk-775.github.io/conversation-success-coach/dashboard.html">
+    <meta property="og:image" content="https://hk-775.github.io/conversation-success-coach/assets/system-architecture.png">
     <title>Coach Dashboard — Conversation Success Coach</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23176b5b'/%3E%3Cpath d='M8 9.5h16v9H14l-5 4v-4H8z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m12 14 2.3 2.2L20 11' fill='none' stroke='%2383dfc2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="assets/styles.css">
@@ -84,7 +90,7 @@
                 <div class="topbar-right">
                     <select class="topbar-select" data-scenario-select data-tour="scenario-select" aria-label="Select demo scenario"><option>Loading scenarios…</option></select>
                     <span class="app-badge" data-mode-badge>Mode</span>
-                    <span class="app-badge neutral">Local only</span>
+                    <span class="app-badge neutral" data-runtime-badge>Local only</span>
                     <button class="button button-small button-secondary" type="button" data-reset-demo data-tour="reset-button">
                         <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5.4 6.2A6 6 0 1 1 4 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M2.8 5.7h3.3v3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         <span>Reset demo</span>
@@ -93,6 +99,10 @@
             </header>
 
             <main class="app-content" id="app-content">
+                <div class="dashboard-preview-banner" data-public-dashboard-preview hidden>
+                    <strong>Published synthetic preview</strong>
+                    <span>Explore scenarios and rerun browser-local analysis. State-changing controls are disabled; start the local service for the complete workflow.</span>
+                </div>
                 <section class="dashboard-view active" data-view="overview">
                     <div class="view-head">
                         <div><h2>Conversation operations at a glance</h2><p>Fictional seeded activity from the real deterministic analysis and feedback APIs.</p></div>

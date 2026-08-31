@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Added
+
+- publication package with governance, support, evaluator startup, launch
+  materials, threat model, production-readiness ledger, publication inventory,
+  issue templates, pull-request template, and `CODEOWNERS`;
+- editable current-system and proposed AWS draw.io diagrams with PNG renders;
+- explicit GitHub Pages read-only mode with browser-local synthetic analysis;
+- Chrome coverage for the Pages subpath, animation, dashboard views, mobile
+  layout, and zero API, external HTTP, or WebSocket traffic;
+- locked dependency audit, Bandit, branch coverage, wheel verification, and
+  required-artifact validation; and
+- pinned, hardened `uv`-based container and immutable Action references.
+
+### Changed
+
+- made `uv` the required installation and execution path;
+- disabled all state-changing dashboard controls in published mode; and
+- documented the AWS architecture as proposed and not deployed.
+
 ## [0.1.0] - 2026-08-30
 
 ### Added
@@ -26,4 +47,3 @@ All notable changes to this project are documented here.
 - MIT-0 release, conduct, contribution, security, architecture, ethics, API,
   demo, deployment, Docker, Compose, scripts, and CI artifacts; and
 - consistent local/demo port `8103`.
-

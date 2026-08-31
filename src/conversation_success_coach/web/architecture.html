@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Interactive architecture for Conversation Success Coach: validated local API, deterministic analysis, responsible-use gates, SQLite state, and human review.">
     <meta name="theme-color" content="#f4f6f2">
+    <link rel="canonical" href="https://hk-775.github.io/conversation-success-coach/architecture.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Conversation Success Coach — Architecture">
+    <meta property="og:description" content="Interactive implemented architecture plus editable current-state and proposed AWS reference diagrams.">
+    <meta property="og:url" content="https://hk-775.github.io/conversation-success-coach/architecture.html">
+    <meta property="og:image" content="https://hk-775.github.io/conversation-success-coach/assets/aws-reference-architecture.png">
     <title>Architecture — Conversation Success Coach</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23176b5b'/%3E%3Cpath d='M8 9.5h16v9H14l-5 4v-4H8z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m12 14 2.3 2.2L20 11' fill='none' stroke='%2383dfc2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="assets/styles.css">
@@ -30,6 +36,11 @@
         </div>
     </nav>
 
+    <div class="public-preview-banner" data-public-preview hidden>
+        <strong>Published synthetic preview</strong>
+        <span>Fictional demo data only. Diagrams and animation are self-contained and make no API calls.</span>
+    </div>
+
     <main id="main" class="architecture-page">
         <section class="architecture-hero">
             <div class="container architecture-hero-grid">
@@ -41,7 +52,7 @@
                     </p>
                     <div class="hero-actions">
                         <a class="button button-primary" href="#interactive-flow">Play the request flow</a>
-                        <a class="button button-secondary" href="docs">Open API docs</a>
+                        <a class="button button-secondary" href="/docs" data-local-api-link>Open API docs</a>
                     </div>
                 </div>
                 <aside class="architecture-facts" aria-label="Architecture facts">
@@ -52,6 +63,46 @@
                     <div class="architecture-fact"><span>Outbound calls</span><strong>None</strong></div>
                     <div class="architecture-fact"><span>Delivery</span><strong>Suggestions only</strong></div>
                 </aside>
+            </div>
+        </section>
+
+        <section class="architecture-section white" id="downloadable-diagrams">
+            <div class="container-wide">
+                <div class="section-heading">
+                    <p class="eyebrow">Editable architecture artifacts</p>
+                    <h2>Implemented locally. Proposed responsibly for AWS.</h2>
+                    <p>The current-system diagram matches version 0.1. The AWS diagram is a production reference only—no cloud infrastructure or infrastructure-as-code is shipped or deployed by this repository.</p>
+                </div>
+                <div class="architecture-diagram-grid">
+                    <figure class="architecture-diagram-card">
+                        <div class="diagram-card-head">
+                            <div><span class="diagram-status implemented">Implemented</span><h3>Current local system</h3></div>
+                            <span>Version 0.1</span>
+                        </div>
+                        <a class="diagram-image-link" href="assets/system-architecture.png">
+                            <img src="assets/system-architecture.png" alt="Current Conversation Success Coach system architecture">
+                        </a>
+                        <figcaption>One browser experience, validated FastAPI service, deterministic coaching and safety engine, explicit human review, and bounded SQLite persistence.</figcaption>
+                        <div class="diagram-downloads">
+                            <a class="button button-small button-secondary" href="assets/system-architecture.png" download>Download PNG</a>
+                            <a class="button button-small button-quiet" href="assets/system-architecture.drawio" download>Editable draw.io</a>
+                        </div>
+                    </figure>
+                    <figure class="architecture-diagram-card">
+                        <div class="diagram-card-head">
+                            <div><span class="diagram-status proposed">Proposed reference · not deployed</span><h3>AWS services architecture</h3></div>
+                            <span>Production direction</span>
+                        </div>
+                        <a class="diagram-image-link" href="assets/aws-reference-architecture.png">
+                            <img src="assets/aws-reference-architecture.png" alt="Proposed AWS reference architecture for Conversation Success Coach">
+                        </a>
+                        <figcaption>CloudFront and WAF at the edge, private application delivery on ECS Fargate, Cognito identity, Multi-AZ PostgreSQL, managed secrets and keys, and privacy-aware observability.</figcaption>
+                        <div class="diagram-downloads">
+                            <a class="button button-small button-secondary" href="assets/aws-reference-architecture.png" download>Download PNG</a>
+                            <a class="button button-small button-quiet" href="assets/aws-reference-architecture.drawio" download>Editable draw.io</a>
+                        </div>
+                    </figure>
+                </div>
             </div>
         </section>
 
@@ -212,4 +263,3 @@
     <script src="assets/architecture.js"></script>
 </body>
 </html>
-

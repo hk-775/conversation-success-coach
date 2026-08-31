@@ -168,17 +168,24 @@ the canonical fictional seed.
 
 ## Offline static presentation
 
-Open `site/index.html` or publish `site/`. The landing, dashboard, and
-architecture pages mirror the served experience. Without the API, the dashboard
-labels itself **Static preview** and uses embedded fictional content. Stateful
-analysis, persistence, purge, and reset require the local service.
+Serve or publish `site/`. The landing, dashboard, architecture explorer, and
+downloadable diagrams mirror the served experience.
+
+With `?public-site=true` or on GitHub Pages, the dashboard labels itself
+**Published synthetic preview**. Scenario selection, navigation, the guided
+tour, and synthetic analysis remain interactive entirely in the browser.
+Transcript edits, suggestion feedback, outcomes, playbook mutation, privacy
+mutation, purge, retention, and reset are disabled. No API or WebSocket is
+opened.
+
+Use the local service for stateful analysis and persistence.
 
 ## Demo recovery
 
 If a walkthrough changes data unexpectedly:
 
 ```bash
-uv run conversation-success-coach reset-demo
+uv run --locked conversation-success-coach reset-demo
 ```
 
 If the service is not responding:
@@ -188,4 +195,3 @@ If the service is not responding:
 ```
 
 The smoke test uses port `8103` and a temporary database.
-
