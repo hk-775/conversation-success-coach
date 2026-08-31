@@ -505,6 +505,14 @@ try {
   cdp?.close();
   server.close();
   if (chrome.exitCode === null) chrome.kill("SIGTERM");
-  if (!(await waitForProcessExit(chrome, 2_000)) && chrome.exitCode === null) chrome.kill("SIGKILL");
-  await rm(profileDir, { recursive: true, force: true });
+  if (!(await waitForProcessExit(chrome, 2_000)) && chrome.exitCode === null) {
+    chrome.kill("SIGKILL");
+    await waitForProcessExit(chrome, 2_000);
+  }
+  await rm(profileDir, {
+    force: true,
+    maxRetries: 10,
+    recursive: true,
+    retryDelay: 100,
+  });
 }
